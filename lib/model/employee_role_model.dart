@@ -1,4 +1,6 @@
-class EmployeeRoleModel {
+import 'package:flutter/material.dart';
+
+class EmployeeRoleModel with ChangeNotifier {
   String? errorFlag;
   String? message;
   Data? data;
@@ -11,18 +13,18 @@ class EmployeeRoleModel {
     data = json['data'] != null ? new Data.fromJson(json['data']) : null;
   }
 
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['error_flag'] = this.errorFlag;
-    data['message'] = this.message;
-    if (this.data != null) {
-      data['data'] = this.data!.toJson();
-    }
-    return data;
-  }
+  // Map<String, dynamic> toJson() {
+  //   final Map<String, dynamic> data = new Map<String, dynamic>();
+  //   data['error_flag'] = this.errorFlag;
+  //   data['message'] = this.message;
+  //   if (this.data != null) {
+  //     data['data'] = this.data!.toJson();
+  //   }
+  //   return data;
+  // }
 }
 
-class Data {
+class Data with ChangeNotifier {
   List<Contacts>? contacts;
   List<Invites>? invites;
 
@@ -43,19 +45,19 @@ class Data {
     }
   }
 
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    if (this.contacts != null) {
-      data['contacts'] = this.contacts!.map((v) => v.toJson()).toList();
-    }
-    if (this.invites != null) {
-      data['invites'] = this.invites!.map((v) => v.toJson()).toList();
-    }
-    return data;
-  }
+//   Map<String, dynamic> toJson() {
+//     final Map<String, dynamic> data = new Map<String, dynamic>();
+//     if (this.contacts != null) {
+//       data['contacts'] = this.contacts!.map((v) => v.toJson()).toList();
+//     }
+//     if (this.invites != null) {
+//       data['invites'] = this.invites!.map((v) => v.toJson()).toList();
+//     }
+//     return data;
+//   }
 }
 
-class Contacts {
+class Contacts with ChangeNotifier {
   String? contactId;
   String? email;
   String? firstname;
@@ -104,27 +106,14 @@ class Contacts {
     roleName = json['role_name'];
   }
 
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['contact_id'] = this.contactId;
-    data['email'] = this.email;
-    data['firstname'] = this.firstname;
-    data['lastname'] = this.lastname;
-    data['mobile'] = this.mobile;
-    data['dob'] = this.dob;
-    data['contact_address_line_1'] = this.contactAddressLine1;
-    data['contact_address_line_2'] = this.contactAddressLine2;
-    data['city'] = this.city;
-    data['county_id'] = this.countyId;
-    data['country_id'] = this.countryId;
-    data['isactive'] = this.isactive;
-    data['role'] = this.role;
-    data['role_name'] = this.roleName;
-    return data;
+  static List<Contacts> dataFromSnapshot(List contactSnapshot) {
+    return contactSnapshot.map((data) {
+      return Contacts.fromJson(data);
+    }).toList();
   }
 }
 
-class Invites {
+class Invites with ChangeNotifier {
   String? inviteId;
   String? email;
   String? configName;
@@ -137,11 +126,10 @@ class Invites {
     configName = json['config_name'];
   }
 
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['invite_id'] = this.inviteId;
-    data['email'] = this.email;
-    data['config_name'] = this.configName;
-    return data;
+   static List<Invites> dataFromSnapshot(List inviteSnapshot) {
+    return inviteSnapshot.map((data) {
+      return Invites.fromJson(data);
+    }).toList();
   }
 }
+

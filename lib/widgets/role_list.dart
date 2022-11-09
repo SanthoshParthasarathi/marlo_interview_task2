@@ -1,8 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:marlo_task2/model/employee_role_model.dart';
 import 'package:marlo_task2/model/role.dart';
 
 class RoleList extends StatelessWidget {
-  const RoleList({Key? key}) : super(key: key);
+  EmployeeRoleModel employeeRoleModel;
+
+  RoleList(
+    {
+    required this.employeeRoleModel,
+  });
 
   @override
   Widget build(BuildContext context) {
