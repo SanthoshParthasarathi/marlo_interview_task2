@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:hexcolor/hexcolor.dart';
+import 'package:marlo_task2/model/role.dart';
 import 'package:marlo_task2/services/services.dart';
+import 'package:oktoast/oktoast.dart';
 
 class InviteScreen extends StatefulWidget {
   const InviteScreen({Key? key}) : super(key: key);
@@ -14,14 +16,16 @@ class _InviteScreenState extends State<InviteScreen> {
   TextEditingController _email = TextEditingController();
   TextEditingController _role = TextEditingController();
 
+  String? roleNumber;
+
   String _selected = '';
 
-  var roles = [
-    "Admin",
-    "Approver",
-    "Preparer",
-    "Viewer",
-    "Employee",
+  List<Role1> rolesList = [
+    Role1(roleName: "Admin", roleId: "1"),
+    Role1(roleName: "Approver", roleId: "2"),
+    Role1(roleName: "Preparer", roleId: "3"),
+    Role1(roleName: "Viewer", roleId: "4"),
+    Role1(roleName: "Employee", roleId: "5"),
   ];
 
   void showModal(context) {
@@ -59,7 +63,7 @@ class _InviteScreenState extends State<InviteScreen> {
                     height: 360,
                     alignment: Alignment.center,
                     child: ListView.separated(
-                        itemCount: roles.length,
+                        itemCount: rolesList.length,
                         separatorBuilder: (context, int) {
                           return Divider();
                         },
@@ -73,7 +77,9 @@ class _InviteScreenState extends State<InviteScreen> {
                             width: double.infinity,
                             child: GestureDetector(
                                 child: Text(
-                                  roles[index],
+                                  rolesList[index].roleName.toString() +
+                                      " | " +
+                                      rolesList[index].roleId.toString(),
                                   style: TextStyle(
                                       color: Colors.grey,
                                       fontSize: 16,
@@ -81,8 +87,16 @@ class _InviteScreenState extends State<InviteScreen> {
                                 ),
                                 onTap: () {
                                   setState(() {
-                                    _selected = roles[index];
+                                    _selected =
+                                        rolesList[index].roleName.toString() +
+                                            " | " +
+                                            rolesList[index].roleId.toString();
+
                                     _role.text = _selected;
+                                    var newString = _selected
+                                        .substring(_selected.length - 1);
+                                    roleNumber = newString;
+                                    // print(newString);
                                   });
                                   Navigator.of(context).pop();
                                 }),
@@ -202,8 +216,11 @@ class _InviteScreenState extends State<InviteScreen> {
                     borderRadius: BorderRadius.circular(10),
                     child: ElevatedButton(
                       onPressed: () {
-                        ApiHandler.postInviteRequest(_email.text, _role.text);
-                        Navigator.of(context).pop();
+                        ApiHandler.postInviteRequest(
+                          _email.text,
+                          roleNumber.toString(),context
+                        );
+
                       },
                       child: Text("Continue"),
                     ),
@@ -221,8 +238,9 @@ class _InviteScreenState extends State<InviteScreen> {
     return Padding(
       padding: const EdgeInsets.only(top: 16.0),
       child: TextField(
-        style: TextStyle(color: Colors.white),
+        style: TextStyle(color: Colors.black),
         controller: controller,
+        keyboardType: TextInputType.emailAddress,
         decoration: InputDecoration(
           fillColor: HexColor("e9eef0"),
           filled: true,

@@ -32,6 +32,7 @@ dependencies:
   hexcolor:
   http:
   provider: ^6.0.3
+  oktoast: 
 
 dev_dependencies:
   flutter_test:

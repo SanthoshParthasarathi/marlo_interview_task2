@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:easy_dynamic_theme/easy_dynamic_theme.dart';
 import 'package:marlo_task2/screens/home.dart';
+import 'package:oktoast/oktoast.dart';
 
 void main() async {
   runApp(
@@ -25,13 +26,15 @@ class MyApp extends StatelessWidget {
         textTheme: new TextTheme(button: TextStyle(color: Colors.black54)),
         brightness: Brightness.dark,
         accentColor: Colors.blue);
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'Flutter Demo',
-      theme: lightThemeData,
-      darkTheme: darkThemeData,
-      themeMode: EasyDynamicTheme.of(context).themeMode,
-      home: Home(),
+    return OKToast(
+      child: MaterialApp(
+        debugShowCheckedModeBanner: false,
+        title: 'Flutter Demo',
+        theme: lightThemeData,
+        darkTheme: darkThemeData,
+        themeMode: EasyDynamicTheme.of(context).themeMode,
+        home: Home(),
+      ),
     );
   }
 }

@@ -9,3 +9,13 @@ class Role {
     required this.active,
   });
 }
+
+class Role1 {
+  String? roleName;
+  String? roleId;
+
+  Role1({
+    required this.roleName,
+    required this.roleId,
+  });
+}
